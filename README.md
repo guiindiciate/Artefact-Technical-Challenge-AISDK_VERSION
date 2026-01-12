@@ -136,6 +136,7 @@ Artefact Assistant: "The price of 0.1 BTC in USD is approximately 9149.20 USD."
 - Next.js (React)
 - TypeScript
 - Node.js 18+
+- Zod (Validation Library)
 
 ---
 
