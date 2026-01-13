@@ -132,11 +132,22 @@ return (
       {/* MESSAGES */}
       <div className={page.messages}>
         {messages.map((m) => (
-          <div key={m.id} className={page.message}>
-            <div className={page.role}>
-              {m.role === "user" ? "You" : "Artefact Assistant"}
+          <div
+            key={m.id}
+            className={`${page.message} ${
+              m.role === "user" ? page.messageUser : page.messageAssistant
+            }`}
+          >
+            <div
+              className={`${page.bubble} ${
+                m.role === "user" ? page.bubbleUser : page.bubbleAssistant
+              }`}
+            >
+              <div className={page.role}>
+                {m.role === "user" ? "You" : "Artefact Assistant"}
+              </div>
+              <div>{renderMessageParts(m)}</div>
             </div>
-            <div>{renderMessageParts(m)}</div>
           </div>
         ))}
 

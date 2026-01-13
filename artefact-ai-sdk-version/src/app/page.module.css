@@ -59,10 +59,36 @@
 
 .message {
   margin-bottom: 12px;
+  display: flex;
+}
+
+.messageUser {
+  justify-content: flex-end;
+}
+
+.messageAssistant {
+  justify-content: flex-start;
 }
 
 .role {
   font-weight: 700;
+}
+
+.bubble {
+  max-width: 75%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.bubbleUser {
+  background: #f2f6ff;
+  text-align: right;
+}
+
+.bubbleAssistant {
+  background: #f7f7f7;
+  text-align: left;
 }
 
 .empty {
