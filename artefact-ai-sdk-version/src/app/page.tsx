@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type ToolUIPart, type UIMessage } from "ai";
+import page from "./page.module.css";
 
 function newSessionId() {
   return (crypto as any).randomUUID ? (crypto as any).randomUUID() : String(Date.now());
@@ -91,59 +92,90 @@ export default function Page() {
     setLastTool("llm");
     setLastTrace("");
   }
+return (
+  <main className={page.container}>
+    <div className={page.chatbox}>
+      {/* TOP BAR */}
+      <div className={page.topBar}>
+        <div className={page.topBarHeader}>
+          <h1 className={page.title}>
+            <img src="/artefact-logo.png" alt="Artefact logo" style={{ height: 28 }} />
+            Assistant | Data & AI to drive impact
+          </h1>
 
-  return (
-    <main style={{ maxWidth: 900, margin: "40px auto", padding: "0 16px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h1 style={{ margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
-          <img src="/artefact-logo.png" alt="Artefact logo" style={{ height: 28 }} />
-          Assistant | Data & AI to drive impact
-        </h1>
-        <a href="https://www.artefact.com/" target="_blank" rel="noreferrer">
-          About Artefact →
-        </a>
+          <a
+            href="https://www.artefact.com/"
+            target="_blank"
+            rel="noreferrer"
+            className={page.aboutBtn}
+          >
+            About Artefact →
+          </a>
+        </div>
+
+        <div className={page.actions}>
+          <button
+            onClick={clear}
+            disabled={isLoading}
+            className={page.clearBtn}
+          >
+            Clear conversation
+          </button>
+
+          <span className={page.session}>Session: {sessionId}</span>
+          <ToolBadge tool={lastTool} />
+
+          {lastTrace && <span className={page.trace}>trace: {lastTrace}</span>}
+        </div>
       </div>
 
-      <div style={{ display: "flex", gap: 8, margin: "12px 0 20px", alignItems: "center" }}>
-        <button onClick={clear} disabled={isLoading}>
-          Clear conversation
-        </button>
-        <span style={{ color: "#666", fontSize: 12 }}>Session: {sessionId}</span>
-        <ToolBadge tool={lastTool} />
-        {lastTrace && <span style={{ color: "#888", fontSize: 12 }}>trace: {lastTrace}</span>}
-      </div>
-
-      <div style={{ border: "1px solid #eee", borderRadius: 12, padding: 16, height: 420, overflowY: "auto" }}>
+      {/* MESSAGES */}
+      <div className={page.messages}>
         {messages.map((m) => (
-          <div key={m.id} style={{ marginBottom: 12 }}>
-            <div style={{ fontWeight: 700 }}>{m.role === "user" ? "You" : "Artefact Assistant"}</div>
+          <div key={m.id} className={page.message}>
+            <div className={page.role}>
+              {m.role === "user" ? "You" : "Artefact Assistant"}
+            </div>
             <div>{renderMessageParts(m)}</div>
           </div>
         ))}
+
         {messages.length === 0 && (
-          <div style={{ color: "#666" }}>
+          <div className={page.empty}>
             Try: “What is 128 times 46?”, “Convert 1 USD to BRL”, “How much is 0.1 BTC in BRL?”
           </div>
         )}
+
         {isLoading && (
-          <div style={{ marginTop: 10, color: "#666" }}>Artefact Assistant is typing…</div>
+          <div className={page.typing}>
+            Artefact Assistant is typing…
+          </div>
         )}
       </div>
 
-      <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+      {/* INPUT */}
+      <div className={page.inputArea}>
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your question..."
-          style={{ flex: 1, padding: 10, borderRadius: 10, border: "1px solid #ddd" }}
+          className={page.input}
           onKeyDown={(e) => {
             if (e.key === "Enter") send();
           }}
         />
-        <button onClick={send} disabled={!input.trim() || isLoading}>
+
+        <button
+          onClick={send}
+          disabled={!input.trim() || isLoading}
+          className={page.sendBtn}
+        >
           {isLoading ? "Sending..." : "Send"}
         </button>
       </div>
-    </main>
-  );
+    </div>
+  </main>
+);
+
+
 }
